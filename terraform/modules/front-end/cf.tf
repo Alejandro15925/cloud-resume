@@ -1,23 +1,27 @@
+# Create Origin Access Control (OAC) for S3 bucket access
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                            = "cf-oac"
-  description                     = "OAC for accessing S3 bucket website"
+  name                              = "cf-oac"
+  description                       = "OAC for accessing S3 bucket website"
   origin_access_control_origin_type = "s3"
-  signing_behavior                = "always"
-  signing_protocol                = "sigv4"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
 }
 
+# CloudFront distribution to serve the resume website
 resource "aws_cloudfront_distribution" "s3_distribution" {
+  depends_on = [aws_acm_certificate_validation.ssl_validation]
+
   origin {
-    domain_name = aws_s3_bucket.website_bucket.bucket_regional_domain_name
+    domain_name              = aws_s3_bucket.website_bucket.bucket_regional_domain_name
     origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
-    origin_id = "s3-origin"
+    origin_id                = "website-origin"
   }
 
   enabled             = true
   default_root_object = "index.html"
 
   default_cache_behavior {
-    target_origin_id       = "s3-origin"
+    target_origin_id       = "website-origin"
     viewer_protocol_policy = "redirect-to-https"
     allowed_methods        = ["GET", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
@@ -30,14 +34,17 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
 
-  price_class = "PriceClass_100" # Cheapest
+  price_class = "PriceClass_All"
 
-  aliases = ["jesuscloud.tech", "www.jesuscloud.tech"]
+  aliases = [
+    "jesuscloud.tech",
+    "www.jesuscloud.tech"
+  ]
 
   viewer_certificate {
-    acm_certificate_arn      = "arn:aws:acm:us-east-1:730335394664:certificate/a6a932c6-a3a3-4a37-89dc-980feda3a2e2"
+    acm_certificate_arn      = aws_acm_certificate.ssl_cert.arn
     ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1.2_2021"
+    minimum_protocol_version = "TLSv1.2_2019"
   }
 
   restrictions {
@@ -49,4 +56,10 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   tags = {
     Name = "cloud-resume-distribution"
   }
+}
+
+# Output the CloudFront domain name for reference
+output "cf-domain" {
+  description = "CloudFront Distribution Domain Name"
+  value       = aws_cloudfront_distribution.s3_distribution.domain_name
 }
