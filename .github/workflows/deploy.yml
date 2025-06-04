@@ -1,4 +1,4 @@
-name: Deploy to S3 and Invalidate CloudFront
+name: Deploy to S3
 
 on:
   push:
@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Step 2: Configure AWS credentials
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -20,14 +22,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      # Optional: Clean up macOS system files
       - name: Clean up macOS system files
-        run: find ./frontend -name ".DS_Store" -type f -delete
+        run: |
+          find . -name ".DS_Store" -type f -delete
 
+      # Step 3: Sync frontend folder to S3
       - name: Sync frontend folder to S3
         run: aws s3 sync ./frontend s3://jesusperez-cloud-engineer-resume --delete
 
-      - name: Invalidate CloudFront cache
+      # Step 4: Invalidate CloudFront Cache
+      - name: Invalidate CloudFront Cache
         run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
-            --paths "/*"
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.CF_REGION }}
