@@ -27012,43 +27012,38 @@ body.tmp-white-version.color-primary-3rd .services-widget.v2 .active-bg {
 }
 /*# sourceMappingURL=../maps/style.css.map */
 
-@keyframes neonPulseBlue {
+@keyframes neonPulseWhite {
   0% {
-    text-shadow: 0 0 4px #1e50f5, 0 0 8px #1e50f5, 0 0 16px #1e50f5;
+    text-shadow: 0 0 5px #fff, 0 0 10px #ffffffcc, 0 0 20px #ffffffb3;
   }
   50% {
-    text-shadow: 0 0 8px #1e50f5, 0 0 16px #1e50f5, 0 0 24px #1e50f5;
+    text-shadow: 0 0 10px #fff, 0 0 20px #ffffffcc, 0 0 30px #ffffffb3;
   }
   100% {
-    text-shadow: 0 0 4px #1e50f5, 0 0 8px #1e50f5, 0 0 16px #1e50f5;
+    text-shadow: 0 0 5px #fff, 0 0 10px #ffffffcc, 0 0 20px #ffffffb3;
   }
 }
 
 .neon-visitor-card {
-  background: rgba(10, 10, 10, 0.5);
-  border: 1px solid #1e50f5;
-  border-radius: 15px;
-  padding: 16px 32px;
+  background: transparent;
+  border: 1px solid #ffffff33;
+  border-radius: 12px;
+  padding: 12px 28px;
   display: inline-block;
   text-align: center;
-  box-shadow: 0 0 10px #1e50f5, 0 0 25px #1e50f5;
   margin-top: 16px;
 }
 
 .neon-label {
-  font-size: 1.2rem;
-  color: #1e50f5;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 4px;
-  display: block;
-  opacity: 0.85;
-}
-
-.neon-count {
-  font-size: 1.8rem;
-  color: #1e50f5;
+  font-size: 1rem;
+  color: #ffffff;
+  text-shadow: 0 0 6px #fff, 0 0 12px #ffffff;
+  animation: neonPulseWhite 1.5s infinite alternate;
   font-weight: bold;
-  animation: neonPulseBlue 1.5s infinite alternate;
 }
 
+
+.neon-visitor-card {
+  backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255, 0.03);
+}
