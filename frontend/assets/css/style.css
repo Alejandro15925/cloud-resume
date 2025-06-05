@@ -27012,27 +27012,42 @@ body.tmp-white-version.color-primary-3rd .services-widget.v2 .active-bg {
 }
 /*# sourceMappingURL=../maps/style.css.map */
 
-.visitor-card {
-  background-color: #1f1f1f;
-  border: 1px solid #2d2d2d;
-  border-radius: 12px;
-  padding: 12px 24px;
+@keyframes neonPulse {
+  0% {
+    text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff;
+  }
+  50% {
+    text-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 30px #00f7ff;
+  }
+  100% {
+    text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff;
+  }
+}
+
+.neon-visitor-card {
+  background: rgba(10, 10, 10, 0.5);
+  border: 1px solid #00f7ff;
+  border-radius: 15px;
+  padding: 16px 32px;
   display: inline-block;
   text-align: center;
-  box-shadow: 0 0 8px rgba(0, 191, 255, 0.2);
-  margin-top: 10px;
+  box-shadow: 0 0 10px #00f7ff, 0 0 30px #00f7ff;
+  margin-top: 16px;
 }
 
-.visitor-label {
-  display: block;
-  font-size: 0.85rem;
-  color: #aaa;
-  margin-bottom: 4px;
+.neon-label {
+  font-size: 0.9rem;
+  color: #00f7ff;
+  text-transform: uppercase;
   letter-spacing: 1px;
+  margin-bottom: 4px;
+  display: block;
+  opacity: 0.8;
 }
 
-.visitor-count {
-  font-size: 1.4rem;
+.neon-count {
+  font-size: 1.8rem;
+  color: #00f7ff;
   font-weight: bold;
-  color: #00bfff;
+  animation: neonPulse 1.5s infinite alternate;
 }
