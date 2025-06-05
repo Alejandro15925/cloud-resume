@@ -55,7 +55,7 @@
                                         </div>
                                     </div>
                                     <div class="button-area-banner-one text-xl-center text-start">
-                                       
+                                       <p>Total Visitors: <span id="visitor-count">Loading...</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -1904,6 +1904,20 @@
         }
     );
 </script>
+
+<script>
+  fetch('https://4z5rbm8ox2.execute-api.us-east-1.amazonaws.com/prod/visitor_count')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('visitor-count').textContent = data.count;
+    })
+    .catch(error => {
+      console.error('Error fetching visitor count:', error);
+      document.getElementById('visitor-count').textContent = 'N/A';
+    });
+</script>
+
+
 </body>
 
 </html>

@@ -2,7 +2,9 @@ module "front_end" {
   source = "./modules/front-end"
 }
 
-module "back_end" {
+
+# Referencing back-end module
+module "back-end" {
   source = "./modules/back-end"
 }
 
