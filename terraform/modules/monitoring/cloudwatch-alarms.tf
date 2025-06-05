@@ -17,38 +17,38 @@ resource "aws_sns_topic_subscription" "sms_alert" {
   endpoint  = var.alert_sms
 }
 
-# Budget alarm
-resource "aws_budgets_budget" "monthly_budget" {
-  name              = "monthly-budget"
-  budget_type       = "COST"
-  limit_amount      = "3.00"
-  limit_unit        = "USD"
-  time_unit         = "MONTHLY"
-
-
-  notification {
-    comparison_operator        = "GREATER_THAN"
-    notification_type          = "ACTUAL"
-    threshold                  = 100
-    threshold_type             = "PERCENTAGE"
-    subscriber_email_addresses = [var.alert_email]
-  }
-}
-
-# Lambda error alarm
+# CloudWatch Alarm for Lambda Invocation Errors
 resource "aws_cloudwatch_metric_alarm" "lambda_error_alarm" {
   alarm_name          = "lambda-invocation-errors"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
   metric_name         = "Errors"
   namespace           = "AWS/Lambda"
-  period              = 3600 # 1 hour
+  period              = 3600 # Every hour
   statistic           = "Sum"
-  threshold           = 1 # Trigger if there is at least one error
+  threshold           = 1
   alarm_description   = "Triggered when Lambda invocation errors > 0"
   alarm_actions       = [aws_sns_topic.alarm_topic.arn]
 
   dimensions = {
     FunctionName = var.lambda_function_name
+  }
+}
+
+# CloudWatch Alarm for Monthly Billing Projection
+resource "aws_cloudwatch_metric_alarm" "monthly_cost_projection" {
+  alarm_name          = "MonthlyCostProjection"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 1
+  metric_name         = "EstimatedCharges"
+  namespace           = "AWS/Billing"
+  period              = 43200 # Every 12 hours
+  statistic           = "Maximum"
+  threshold           = 3
+  alarm_description   = "Triggered when projected monthly AWS costs exceed $3"
+  alarm_actions       = [aws_sns_topic.alarm_topic.arn]
+
+  dimensions = {
+    Currency = "USD"
   }
 }
