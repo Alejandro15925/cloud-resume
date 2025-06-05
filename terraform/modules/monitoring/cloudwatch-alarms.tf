@@ -42,7 +42,7 @@ resource "aws_cloudwatch_metric_alarm" "monthly_cost_projection" {
   evaluation_periods  = 1
   metric_name         = "EstimatedCharges"
   namespace           = "AWS/Billing"
-  period              = 43200 # Every 12 hours
+  period              = 300 # Every 5 minutes
   statistic           = "Maximum"
   threshold           = 3
   alarm_description   = "Triggered when projected monthly AWS costs exceed $3"
