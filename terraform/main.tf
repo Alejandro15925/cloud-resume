@@ -9,5 +9,10 @@ module "back-end" {
 }
 
 module "monitoring" {
-  source = "./modules/monitoring"
+  source               = "./modules/monitoring"
+  alert_email          = "Alejandro953504@gmail.com"
+  alert_sms            = "+522221437364"
+  lambda_function_name = module.back-end.lambda_function_name
 }
+
+
