@@ -27014,13 +27014,13 @@ body.tmp-white-version.color-primary-3rd .services-widget.v2 .active-bg {
 
 @keyframes neonPulse {
   0% {
-    text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff;
+    text-shadow: 0 0 5px #035BDA, 0 0 10px #035BDA, 0 0 20px #035BDA;
   }
   50% {
-    text-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff, 0 0 30px #00f7ff;
+    text-shadow: 0 0 10px #035BDA, 0 0 20px #035BDA, 0 0 30px #035BDA;
   }
   100% {
-    text-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 20px #00f7ff;
+    text-shadow: 0 0 5px #035BDA, 0 0 10px #035BDA, 0 0 20px #035BDA;
   }
 }
 
@@ -27036,7 +27036,7 @@ body.tmp-white-version.color-primary-3rd .services-widget.v2 .active-bg {
 }
 
 .neon-label {
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   color: #00f7ff;
   text-transform: uppercase;
   letter-spacing: 1px;
